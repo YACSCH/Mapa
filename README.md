@@ -22,9 +22,11 @@ Crear un archivo `.env` en la raíz del proyecto:
 
 ```
 VITE_TARIFA_200_METROS=500
+VITE_COUNTRY_CODE=cl
 ```
 
-El valor indica cuántos pesos cuestan los primeros 200 metros (un bloque).
+- `VITE_TARIFA_200_METROS` — cuántos pesos cuestan los primeros 200 metros (un bloque).
+- `VITE_COUNTRY_CODE` — código de país ISO 3166-1 alpha-2 para limitar las búsquedas (ej: `cl` = Chile, `mx` = México, `ar` = Argentina). Si se omite, busca en todo el mundo.
 
 ## Ejecutar
 
@@ -34,12 +36,13 @@ npm run dev
 
 La aplicación estará disponible en `http://localhost:5173`.
 
-## Cambiar la tarifa
+## Cambiar la tarifa o el país
 
-Modificar el valor de `VITE_TARIFA_200_METROS` en el archivo `.env`:
+Modificar los valores en el archivo `.env`:
 
 ```
 VITE_TARIFA_200_METROS=800
+VITE_COUNTRY_CODE=mx
 ```
 
 Reiniciar el servidor de desarrollo para que el cambio tome efecto.

@@ -2,6 +2,14 @@ import type { GeocodedLocation } from '../types';
 
 const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
 
+function getCountryCode(): string | undefined {
+  const code = import.meta.env.VITE_COUNTRY_CODE;
+  if (code && typeof code === 'string' && code.trim().length > 0) {
+    return code.trim().toLowerCase();
+  }
+  return undefined;
+}
+
 export async function geocode(
   address: string,
   signal?: AbortSignal
@@ -12,6 +20,11 @@ export async function geocode(
     limit: '1',
     addressdetails: '1',
   });
+
+  const countryCode = getCountryCode();
+  if (countryCode) {
+    params.set('countrycodes', countryCode);
+  }
 
   const response = await fetch(`${NOMINATIM_URL}?${params.toString()}`, {
     signal,
@@ -50,6 +63,11 @@ export async function searchAddresses(
     limit: '5',
     addressdetails: '1',
   });
+
+  const countryCode = getCountryCode();
+  if (countryCode) {
+    params.set('countrycodes', countryCode);
+  }
 
   const response = await fetch(`${NOMINATIM_URL}?${params.toString()}`, {
     signal,
