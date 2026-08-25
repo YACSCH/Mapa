@@ -39,3 +39,41 @@ export async function geocode(
     displayName: result.display_name,
   };
 }
+
+export async function searchAddresses(
+  query: string,
+  signal?: AbortSignal
+): Promise<GeocodedLocation[]> {
+  const params = new URLSearchParams({
+    q: query,
+    format: 'json',
+    limit: '5',
+    addressdetails: '1',
+  });
+
+  const response = await fetch(`${NOMINATIM_URL}?${params.toString()}`, {
+    signal,
+    headers: {
+      'Accept-Language': 'es',
+      'User-Agent': 'MapaTarifa/1.0 (calculadora-tarifa)',
+    },
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const results = await response.json();
+
+  if (!Array.isArray(results)) {
+    return [];
+  }
+
+  return results.map(
+    (result): GeocodedLocation => ({
+      lat: parseFloat(result.lat),
+      lng: parseFloat(result.lon),
+      displayName: result.display_name,
+    })
+  );
+}
