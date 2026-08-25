@@ -6,17 +6,7 @@ import './MapView.css';
 
 const defaultPosition: GeoPoint = { lat: -33.4489, lng: -70.6693 };
 
-const originIcon = new L.Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-const destinationIcon = new L.Icon({
+const defaultIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -82,13 +72,13 @@ export function MapView({ origin, destination, routeGeometry }: MapViewProps) {
         {origin && (
           <Marker
             position={[origin.lat, origin.lng]}
-            icon={originIcon}
+            icon={defaultIcon}
           />
         )}
         {destination && (
           <Marker
             position={[destination.lat, destination.lng]}
-            icon={destinationIcon}
+            icon={defaultIcon}
           />
         )}
         {routeGeometry.length > 0 && (

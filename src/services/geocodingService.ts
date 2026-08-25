@@ -17,6 +17,7 @@ export async function geocode(
     signal,
     headers: {
       'Accept-Language': 'es',
+      'User-Agent': 'MapaTarifa/1.0 (calculadora-tarifa)',
     },
   });
 
