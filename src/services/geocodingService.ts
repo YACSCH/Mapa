@@ -1,6 +1,6 @@
 import type { GeocodedLocation } from '../types';
 
-const NOMINATIM_URL = 'https://nominatim.openstreetmap.org/search';
+const PHOTON_URL = 'https://photon.komoot.io/api/';
 
 export async function geocode(
   address: string,
@@ -8,35 +8,31 @@ export async function geocode(
 ): Promise<GeocodedLocation> {
   const params = new URLSearchParams({
     q: address,
-    format: 'json',
     limit: '1',
-    addressdetails: '1',
+    lang: 'es',
   });
 
-  const response = await fetch(`${NOMINATIM_URL}?${params.toString()}`, {
+  const response = await fetch(`${PHOTON_URL}?${params.toString()}`, {
     signal,
-    headers: {
-      'Accept-Language': 'es',
-      'User-Agent': 'MapaTarifa/1.0 (calculadora-tarifa)',
-    },
   });
 
   if (!response.ok) {
     throw new Error(`Error de geocodificación: ${response.status}`);
   }
 
-  const results = await response.json();
+  const data = await response.json();
 
-  if (!Array.isArray(results) || results.length === 0) {
+  if (!data.features || data.features.length === 0) {
     throw new Error('No fue posible encontrar la dirección ingresada.');
   }
 
-  const result = results[0];
+  const feature = data.features[0];
+  const [lng, lat] = feature.geometry.coordinates;
 
   return {
-    lat: parseFloat(result.lat),
-    lng: parseFloat(result.lon),
-    displayName: result.display_name,
+    lat,
+    lng,
+    displayName: formatLabel(feature.properties),
   };
 }
 
@@ -46,34 +42,57 @@ export async function searchAddresses(
 ): Promise<GeocodedLocation[]> {
   const params = new URLSearchParams({
     q: query,
-    format: 'json',
     limit: '5',
-    addressdetails: '1',
+    lang: 'es',
   });
 
-  const response = await fetch(`${NOMINATIM_URL}?${params.toString()}`, {
+  const response = await fetch(`${PHOTON_URL}?${params.toString()}`, {
     signal,
-    headers: {
-      'Accept-Language': 'es',
-      'User-Agent': 'MapaTarifa/1.0 (calculadora-tarifa)',
-    },
   });
 
   if (!response.ok) {
     return [];
   }
 
-  const results = await response.json();
+  const data = await response.json();
 
-  if (!Array.isArray(results)) {
+  if (!data.features || !Array.isArray(data.features)) {
     return [];
   }
 
-  return results.map(
-    (result): GeocodedLocation => ({
-      lat: parseFloat(result.lat),
-      lng: parseFloat(result.lon),
-      displayName: result.display_name,
-    })
+  return data.features.map(
+    (feature: PhotonFeature): GeocodedLocation => {
+      const [lng, lat] = feature.geometry.coordinates;
+      return {
+        lat,
+        lng,
+        displayName: formatLabel(feature.properties),
+      };
+    }
   );
+}
+
+interface PhotonProperties {
+  name?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postcode?: string;
+  [key: string]: unknown;
+}
+
+interface PhotonFeature {
+  geometry: {
+    coordinates: [number, number];
+  };
+  properties: PhotonProperties;
+}
+
+function formatLabel(props: PhotonProperties): string {
+  const parts: string[] = [];
+  if (props.name) parts.push(props.name);
+  if (props.city) parts.push(props.city);
+  if (props.state) parts.push(props.state);
+  if (props.country) parts.push(props.country);
+  return parts.join(', ') || 'Dirección desconocida';
 }
