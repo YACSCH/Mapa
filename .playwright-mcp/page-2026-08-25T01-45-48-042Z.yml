@@ -1,0 +1,49 @@
+- generic [ref=f5e3]:
+  - banner [ref=f5e4]:
+    - heading "Calculadora de Tarifa" [level=1] [ref=f5e5]
+  - main [ref=f5e6]:
+    - complementary [ref=f5e7]:
+      - generic [ref=f5e8]:
+        - generic [ref=f5e9]:
+          - generic [ref=f5e10]: Origen
+          - textbox "Origen" [ref=f5e11]:
+            - /placeholder: Ingrese dirección de origen
+            - text: Orrego Luco 215, Maipú
+        - generic [ref=f5e12]:
+          - generic [ref=f5e13]: Destino
+          - textbox "Destino" [ref=f5e14]:
+            - /placeholder: Ingrese dirección de destino
+            - text: La Unión 3070, Renca
+        - button "Calcular Distancia" [ref=f5e35] [cursor=pointer]
+      - generic [ref=f5e36]:
+        - generic [ref=f5e37]:
+          - generic [ref=f5e38]: Distancia
+          - generic [ref=f5e39]: 18.817 metros
+        - generic [ref=f5e40]:
+          - generic [ref=f5e41]: Bloques
+          - generic [ref=f5e42]: 95 bloques de 200 metros
+        - generic [ref=f5e43]:
+          - generic [ref=f5e44]: Tarifa por bloque
+          - generic [ref=f5e45]: $500
+        - generic [ref=f5e46]:
+          - generic [ref=f5e47]: TOTAL
+          - generic [ref=f5e48]: $47.500
+    - generic [ref=f5e18]:
+      - generic:
+        - generic:
+          - img:
+            - generic [ref=f5e49] [cursor=pointer]
+        - generic:
+          - button "Marker" [ref=f5e33] [cursor=pointer]
+          - button "Marker" [ref=f5e34] [cursor=pointer]
+      - generic:
+        - generic [ref=f5e19]:
+          - button "Zoom in" [ref=f5e20] [cursor=pointer]: +
+          - button "Zoom out" [ref=f5e21] [cursor=pointer]: −
+        - generic [ref=f5e22]:
+          - link "Leaflet" [ref=f5e23] [cursor=pointer]:
+            - /url: https://leafletjs.com
+          - text: "| ©"
+          - link "OpenStreetMap" [ref=f5e28] [cursor=pointer]:
+            - /url: https://www.openstreetmap.org/copyright
+          - text: contributors
