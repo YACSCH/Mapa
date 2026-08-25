@@ -6,10 +6,3 @@ export async function geocode(
 ): Promise<GeocodedLocation> {
   throw new Error('Servicio de geocodificación no configurado.');
 }
-
-export async function searchAddresses(
-  _query: string,
-  _signal?: AbortSignal
-): Promise<GeocodedLocation[]> {
-  return [];
-}

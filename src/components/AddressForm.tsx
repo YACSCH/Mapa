@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { AddressInput } from './AddressInput';
-import type { GeocodedLocation } from '../types';
 import './AddressForm.css';
 
 interface AddressFormProps {
@@ -23,12 +21,13 @@ export function AddressForm({ onCalculate, isLoading }: AddressFormProps) {
         <label className="address-form__label" htmlFor="origin">
           Origen
         </label>
-        <AddressInput
+        <input
           id="origin"
+          className="address-form__input"
+          type="text"
           placeholder="Ingrese dirección de origen"
           value={origin}
-          onChange={setOrigin}
-          onSelect={(_loc: GeocodedLocation) => {}}
+          onChange={(e) => setOrigin(e.target.value)}
           disabled={isLoading}
         />
       </div>
@@ -37,12 +36,13 @@ export function AddressForm({ onCalculate, isLoading }: AddressFormProps) {
         <label className="address-form__label" htmlFor="destination">
           Destino
         </label>
-        <AddressInput
+        <input
           id="destination"
+          className="address-form__input"
+          type="text"
           placeholder="Ingrese dirección de destino"
           value={destination}
-          onChange={setDestination}
-          onSelect={(_loc: GeocodedLocation) => {}}
+          onChange={(e) => setDestination(e.target.value)}
           disabled={isLoading}
         />
       </div>
